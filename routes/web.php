@@ -26,8 +26,8 @@ Route::get('/data-siswa', [DataSiswaController::class, 'index']);
 Route::post('/data-siswa/create', [DataSiswaController::class, 'create']);
 Route::get('/data-siswa/{id}/edit', [DataSiswaController::class, 'edit']);
 Route::post('/data-siswa/{id}/update', [DataSiswaController::class, 'update']);
-Route::get('/data-siswa/{id}/delete', [DataSiswaController::class, 'delete']);
+Route::get('/data-siswa/{id}/delete', [DataSiswaController::class, 'destroy']);
 
-Route::get('/login', [App\Http\Controllers\AdminController::class, 'login']);
+// Route::get('/login', [App\Http\Controllers\AdminController::class, 'login']);
 
 //Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
