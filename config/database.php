@@ -15,7 +15,8 @@ return [
     |
     */
 
-    'default' => env('DB_CONNECTION', 'mysql'),
+    //'default' => env('DB_CONNECTION', 'mysql'),
+    'default' => env('DB_CONNECTION', 'mongodb'),
 
     /*
     |--------------------------------------------------------------------------
@@ -34,6 +35,15 @@ return [
     */
 
     'connections' => [
+        'mongodb' => [
+            'driver'   => 'mongodb',
+            'host'     => env('MONGO_DB_HOST', '127.0.0.1'),
+            'port'     => env('MONGO_DB_PORT', 27017),
+            'database' => env('MONGO_DB_DATABASE'),
+            'username' => env('MONGO_DB_USERNAME'),
+            'password' => env('MONGO_DB_PASSWORD'),
+            'options'  => []
+        ],
 
         'sqlite' => [
             'driver' => 'sqlite',
@@ -90,6 +100,20 @@ return [
             'prefix' => '',
             'prefix_indexes' => true,
         ],
+        'mongodb' => [
+            'driver' => 'mongodb',
+            'host' => env('MONGO_DB_HOST', '127.0.0.1'),
+            'port' => env('MONGO_DB_PORT', 27017),
+            'database' => env('MONGO_DB_DATABASE', 'pemweb'),
+            'username' => env('MONGO_DB_USERNAME', ''),
+            'password' => env('MONGO_DB_PASSWORD', ''),
+            'options' => [
+                // here you can pass more settings to the Mongo Driver Manager
+                // see https://www.php.net/manual/en/mongodb-driver-manager.construct.php under "Uri Options" for a list of complete parameters that you can use
+
+                'database' => env('DB_AUTHENTICATION_DATABASE', 'admin'), // required with Mongo 3+
+            ],
+        ],
 
     ],
 
@@ -123,7 +147,7 @@ return [
 
         'options' => [
             'cluster' => env('REDIS_CLUSTER', 'redis'),
-            'prefix' => env('REDIS_PREFIX', Str::slug(env('APP_NAME', 'laravel'), '_').'_database_'),
+            'prefix' => env('REDIS_PREFIX', Str::slug(env('APP_NAME', 'laravel'), '_') . '_database_'),
         ],
 
         'default' => [
