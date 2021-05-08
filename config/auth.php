@@ -14,7 +14,7 @@ return [
     */
 
     'defaults' => [
-        'guard' => 'siswa',
+        'guard' => 'web',
         'passwords' => 'users',
     ],
 
@@ -46,11 +46,6 @@ return [
             'provider' => 'users',
             'hash' => false,
         ],
-
-        'siswa' => [
-            'driver' => 'json',
-            'provider' => 'siswa',
-        ],
     ],
 
     /*
@@ -71,10 +66,15 @@ return [
     */
 
     'providers' => [
-        'siswa' => [
-            'driver' => 'mongo',
+        'users' => [
+            'driver' => 'eloquent',
             'model' => App\Models\User::class,
         ],
+
+        // 'users' => [
+        //     'driver' => 'database',
+        //     'table' => 'users',
+        // ],
     ],
 
     /*
