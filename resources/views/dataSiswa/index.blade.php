@@ -38,7 +38,11 @@
                     <td>{{$siswa->asal_sekolah}}</td>
                     <td>
                         <a href="/data-siswa/{{$siswa->id}}/edit" class="btn btn-warning btn-sm">EDIT</a>
-                        <a href="/data-siswa/{{$siswa->id}}/delete" class="btn btn-danger btn-sm" onclick="return confirm('Apakah anda yakin ?')">DELETE</a>
+                        <form action="/data-siswa/{{$siswa->id}}" method="POST" onsubmit="return confirm('Apakah anda yakin ?')">
+                            @csrf
+                            @method("DELETE")
+                            <button type="submit" class="btn btn-danger btn-sm">DELETE</button>
+                        </form>
                     </td>
                 </tr>
                  @endforeach
@@ -54,8 +58,8 @@
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        <form action="/data-siswa/create" method="POST">
-                            {{csrf_field()}}
+                        <form action="/data-siswa" method="POST">
+                            @csrf
                             <div class="mb-3">
                                 <label for="exampleInputEmail1" class="form-label">Nama Siswa</label>
                                 <input name="nama_siswa" type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Masukkan nama">

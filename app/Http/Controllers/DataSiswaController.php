@@ -14,23 +14,12 @@ class DataSiswaController extends Controller
      */
     public function index(Request $request)
     {
-        if ($request->has('search')) {
+        if ($request->filled('search')) {
             $data_siswa = DataSiswa::where('nama_siswa', 'LIKE', '%' . $request->search . '%')->get();
         } else {
             $data_siswa = DataSiswa::all();
         }
         return view('dataSiswa.index', ['data_siswa' => $data_siswa]);
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create(Request $request)
-    {
-        DataSiswa::create($request->all());
-        return redirect('/data-siswa')->with('sukses', 'Data siswa berhasil disimpan');
     }
 
     /**
@@ -41,18 +30,8 @@ class DataSiswaController extends Controller
      */
     public function store(Request $request)
     {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
+        DataSiswa::create($request->all());
+        return redirect()->back()->with('sukses', 'Data siswa berhasil disimpan');
     }
 
     /**
@@ -63,8 +42,8 @@ class DataSiswaController extends Controller
      */
     public function edit($id)
     {
-        $siswa = DataSiswa::find($id);
-        return view('dataSiswa/edit', ['siswa' => $siswa]);
+        $siswa = DataSiswa::findOrFail($id);
+        return view('dataSiswa.edit', ['siswa' => $siswa]);
     }
 
     /**
@@ -76,9 +55,9 @@ class DataSiswaController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $siswa = DataSiswa::find($id);
+        $siswa = DataSiswa::findOrFail($id);
         $siswa->update($request->all());
-        return redirect('/data-siswa')->with('sukses', "Data siswa berhasil diupdate");
+        return redirect()->route('data-siswa.index')->with('sukses', "Data siswa berhasil diupdate");
     }
 
     /**
@@ -89,8 +68,8 @@ class DataSiswaController extends Controller
      */
     public function destroy($id)
     {
-        $siswa = \App\Models\DataSiswa::find($id);
+        $siswa = DataSiswa::findOrFail($id);
         $siswa->delete();
-        return redirect('/data-siswa')->with('sukses', "Data siswa berhasil dihapus dari sistem");
+        return redirect()->back()->with('sukses', "Data siswa berhasil dihapus dari sistem");
     }
 }
