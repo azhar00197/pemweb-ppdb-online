@@ -16,8 +16,8 @@ class CreateDataSiswaTable extends Migration
     {
         Schema::create('data_siswa', function (Blueprint $table) {
             $table->id('nis');
-            $table->string('email')->unique();
-            $table->string('nama_lengkap');
+            $table->unsignedBigInteger('user_id');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');
             $table->string('jenis_kelamin')->default("LAKI-LAKI");
             $table->string('agama')->default("");
             $table->string('tempat_lahir')->default("");
@@ -25,8 +25,6 @@ class CreateDataSiswaTable extends Migration
             $table->double('rata_rata_UN')->default(0.0);
             $table->unsignedBigInteger('gaji_orang_tua_pertahun')->default(0);
             $table->string('asal_sekolah')->default("");
-            $table->string('password');
-            $table->rememberToken();
             $table->timestamps();
         });
     }

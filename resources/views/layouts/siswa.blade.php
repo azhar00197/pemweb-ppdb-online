@@ -4,7 +4,10 @@
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-        <title>Daftar | SMAN 1 Malang</title>
+        <title>
+            @yield('title')
+            | SMAN 1 Malang
+        </title>
         <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
         <link rel="preconnect" href="https://fonts.gstatic.com" />
         <link
@@ -38,46 +41,9 @@
                 </div>
             </div>
         </nav>
-        <section class="px-5 sm:px-20 py-10 flex flex-col">
-            @if ($errors->any())
-                <div class="rounded-md bg-red-100 text-red-600 p-3 mb-6">
-                    <ul>
-                        @foreach ($errors->all() as $error)
-                            <li>{{ $error }}</li>
-                        @endforeach
-                    </ul>
-                </div>
-            @endif
 
-            <div class="flex flex-col items-center">
-                <img src="/img/smansa.png" class="w-12" alt="">
-                <h3 class="font-sans font-semibold text-xl mt-6">DAFTAR</h3>
-            </div>
-            <form action="/register" method="POST" class="border border-gray-500 rounded-md w-full sm:w-96 self-center mt-8 p-6">
-                @csrf
-                <div class="flex flex-col">
-                    <label for="name" class="text-sm">Nama Lengkap</label>
-                    <input type="text" name="name" id="name" class="py-1 px-3 rounded-sm border border-gray-700 border-opacity-60" required>
-                </div>
-                <div class="flex flex-col mt-3">
-                    <label for="email" class="text-sm">Email</label>
-                    <input type="email" name="email" id="email" class="py-1 px-3 rounded-sm border border-gray-700 border-opacity-60" required>
-                </div>
-                <div class="flex flex-col mt-3">
-                    <label for="password" class="text-sm">Password</label>
-                    <input type="password" name="password" id="password" class="py-1 px-3 rounded-sm border border-gray-700 border-opacity-60" minlength="8" required>
-                </div>
-                <div class="flex flex-col mt-3">
-                    <label for="password-confirmation" class="text-sm">Konfirmasi Password</label>
-                    <input type="password" name="password_confirmation" id="password-confirmation" class="py-1 px-3 rounded-sm border border-gray-700 border-opacity-60" minlength="8" required>
-                </div>
-                <button type="submit" class="mt-6 py-1.5 px-3 w-full bg-green-700 hover:bg-green-500 text-white transition-all">Daftar</button>
-            </form>
-            <div class="text-center mt-3">
-                Sudah mendaftar?
-                <a href="/login" class="text-indigo-900 hover:text-indigo-700">Klik sini</a>
-            </div>
-        </section>
+        @yield('content')
+        
         <footer
         class="footer bg-gray-900 text-white relative pt-5"
     >

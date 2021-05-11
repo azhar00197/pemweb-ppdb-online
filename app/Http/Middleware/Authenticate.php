@@ -25,8 +25,10 @@ class Authenticate extends Middleware
     protected function customRedirectTo($request, $guards)
     {
         if (!$request->expectsJson()) {
-            dd($guards);
-            return route('login');
+            if ($guards[0] === 'admin')
+                return route('adminlogin');
+            else
+                return route('login');
         }
     }
 }

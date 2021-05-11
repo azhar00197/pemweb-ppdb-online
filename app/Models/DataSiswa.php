@@ -9,6 +9,9 @@ class DataSiswa extends Authenticatable
 {
     use HasFactory;
     protected $table = 'data_siswa';
+
+    protected $primaryKey = 'nis';
+
     protected $fillable = [
         'email',
         'nama_lengkap',

@@ -19,15 +19,22 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('login', [AuthController::class, 'login'])->name('login');
-Route::post('login', [AuthController::class, 'authenticate']);
+Route::group(['middleware' => 'guest'], function () {
+    Route::get('login', [AuthController::class, 'login'])->name('login');
+    Route::post('login', [AuthController::class, 'authenticate']);
 
-Route::get('register', [AuthController::class, 'register']);
-Route::post('register', [AuthController::class, 'createAccount']);
+    Route::get('register', [AuthController::class, 'register']);
+    Route::post('register', [AuthController::class, 'createAccount']);
+});
+
+Route::group(['middleware' => 'auth'], function () {
+    Route::get('data-siswa', [DataSiswaController::class, 'editDariSiswa']);
+    Route::post('data-siswa', [DataSiswaController::class, 'updateDariSiswa']);
+});
 
 Route::group(['prefix' => 'admin'], function () {
     Route::group(['middleware' => 'guest:admin'], function () {
-        Route::get('login', [AuthController::class, 'loginAdmin']);
+        Route::get('login', [AuthController::class, 'loginAdmin'])->name('adminlogin');
         Route::post('login', [AuthController::class, 'authenticateAdmin']);
     });
 

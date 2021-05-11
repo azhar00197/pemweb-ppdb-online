@@ -39,6 +39,15 @@
             </div>
         </nav>
         <section class="px-5 sm:px-20 py-10 flex flex-col">
+            @if ($errors->any())
+                <div class="rounded-md bg-red-100 text-red-600 p-3 mb-6">
+                    <ul>
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
             <div class="flex flex-col items-center">
                 <img src="/img/smansa.png" class="w-12" alt="">
                 <h3 class="font-sans font-semibold text-xl mt-6">LOGIN</h3>

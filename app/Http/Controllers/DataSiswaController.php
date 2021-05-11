@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\DataSiswa;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class DataSiswaController extends Controller
@@ -71,5 +72,36 @@ class DataSiswaController extends Controller
         $siswa = DataSiswa::findOrFail($id);
         $siswa->delete();
         return redirect()->back()->with('sukses', "Data siswa berhasil dihapus dari sistem");
+    }
+
+    public function editDariSiswa()
+    {
+        $user = User::findOrFail(auth()->user()->id);
+        $siswa = $user->data_siswa;
+        return view('dataSiswa.edit', ['siswa' => $siswa, 'user' => $user]);
+    }
+
+    public function updateDariSiswa(Request $request)
+    {
+        $user = User::findOrFail(auth()->user()->id);
+        $request->validate([
+            'nama_siswa' => 'required',
+            'jenis_kelamin' => 'required',
+            'agama' => 'required',
+            'tempat_lahir' => 'required',
+            'tanggal_lahir' => 'required|date',
+            'rata_rata_UN' => 'required|numeric',
+            'gaji_orang_tua_pertahun' => 'required|numeric',
+        ]);
+
+        $siswa = $user->data_siswa;
+
+        $user->name = $request->nama_siswa;
+        $user->save();
+
+        $siswa->fill($request->all());
+        $siswa->save();
+
+        return redirect('/foto-siswa');
     }
 }
