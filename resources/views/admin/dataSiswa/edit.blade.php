@@ -1,4 +1,4 @@
-@extends('layouts.master')
+@extends('admin.layouts.dashboard')
 
 @section('content')
             <h1>Edit Data Siswa</h1>

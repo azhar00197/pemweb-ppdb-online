@@ -33,12 +33,12 @@ Route::group(['middleware' => 'auth'], function () {
 });
 
 Route::group(['prefix' => 'admin'], function () {
-    Route::group(['middleware' => 'guest:admin'], function () {
+    Route::group(['middleware' => 'guest'], function () {
         Route::get('login', [AuthController::class, 'loginAdmin'])->name('adminlogin');
         Route::post('login', [AuthController::class, 'authenticateAdmin']);
     });
 
-    Route::group(['middleware' => 'auth:admin'], function () {
+    Route::group(['middleware' => 'auth'], function () {
         Route::resource('data-siswa', DataSiswaController::class);
     });
 });

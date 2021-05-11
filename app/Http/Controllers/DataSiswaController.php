@@ -20,7 +20,8 @@ class DataSiswaController extends Controller
         } else {
             $data_siswa = DataSiswa::all();
         }
-        return view('dataSiswa.index', ['data_siswa' => $data_siswa]);
+        $user = auth()->user();
+        return view('admin.dataSiswa.index', ['data_siswa' => $data_siswa, 'user' => $user]);
     }
 
     /**
@@ -44,7 +45,7 @@ class DataSiswaController extends Controller
     public function edit($id)
     {
         $siswa = DataSiswa::findOrFail($id);
-        return view('dataSiswa.edit', ['siswa' => $siswa]);
+        return view('admin.dataSiswa.edit', ['siswa' => $siswa]);
     }
 
     /**
