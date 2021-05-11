@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DataSiswaController;
 use Illuminate\Support\Facades\Route;
@@ -40,6 +41,7 @@ Route::group(['prefix' => 'admin'], function () {
 
     Route::group(['middleware' => ['auth', 'checkrole:admin']], function () {
         Route::resource('data-siswa', DataSiswaController::class)->except(["GET"]);
+        Route::resource('data-admin', AdminController::class)->except(["GET"]);
     });
 });
 
