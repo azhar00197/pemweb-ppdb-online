@@ -39,6 +39,6 @@ Route::group(['prefix' => 'admin'], function () {
     });
 
     Route::group(['middleware' => 'auth'], function () {
-        Route::resource('data-siswa', DataSiswaController::class);
+        Route::resource('data-siswa', DataSiswaController::class)->except(["GET"]);
     });
 });

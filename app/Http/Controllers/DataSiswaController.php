@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\DataSiswa;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
+use Symfony\Component\Translation\Exception\NotFoundResourceException;
 
 class DataSiswaController extends Controller
 {
@@ -16,12 +18,18 @@ class DataSiswaController extends Controller
     public function index(Request $request)
     {
         if ($request->filled('search')) {
-            $data_siswa = DataSiswa::where('nama_siswa', 'LIKE', '%' . $request->search . '%')->get();
+            $data_siswa = User::with('data_siswa')->where('role', 'SISWA')->where('name', 'LIKE', '%' . $request->search . '%')->get();
         } else {
-            $data_siswa = DataSiswa::all();
+            $data_siswa = User::with('data_siswa')->where('role', 'SISWA')->get();
         }
         $user = auth()->user();
         return view('admin.dataSiswa.index', ['data_siswa' => $data_siswa, 'user' => $user]);
+    }
+
+    public function create()
+    {
+        $user = auth()->user();
+        return view("admin.dataSiswa.add", ['user' => $user]);
     }
 
     /**
@@ -32,8 +40,28 @@ class DataSiswaController extends Controller
      */
     public function store(Request $request)
     {
-        DataSiswa::create($request->all());
-        return redirect()->back()->with('sukses', 'Data siswa berhasil disimpan');
+        $request->validate([
+            'email' => 'email|required',
+            'name' => 'required',
+            'jenis_kelamin' => 'required',
+            'agama' => 'required',
+            'tempat_lahir' => 'required',
+            'tanggal_lahir' => 'required|date',
+            'rata_rata_UN' => 'required|numeric',
+            'gaji_orang_tua_pertahun' => 'required|numeric',
+            'password' => 'required|min:8',
+        ]);
+        $user = new User();
+        $user->fill($request->only(['name', 'email']));
+        $user->password = Hash::make($request->password);
+        $user->save();
+
+        $siswa = new DataSiswa();
+        $siswa->fill($request->all());
+        $siswa->user_id = $user->id;
+        $siswa->save();
+
+        return redirect()->route("data-siswa.index")->with('sukses', 'Data siswa berhasil disimpan');
     }
 
     /**
@@ -44,8 +72,11 @@ class DataSiswaController extends Controller
      */
     public function edit($id)
     {
-        $siswa = DataSiswa::findOrFail($id);
-        return view('admin.dataSiswa.edit', ['siswa' => $siswa]);
+        $siswa = User::with('data_siswa')->findOrFail($id);
+        if ($siswa->role !== 'SISWA')
+            throw new NotFoundResourceException();
+        $user = auth()->user();
+        return view('admin.dataSiswa.edit', ['siswa' => $siswa, 'user' => $user]);
     }
 
     /**
@@ -57,7 +88,18 @@ class DataSiswaController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $siswa = DataSiswa::findOrFail($id);
+        $user = User::findOrFail($id);
+        $request->validate([
+            'nama_siswa' => 'required',
+            'jenis_kelamin' => 'required',
+            'agama' => 'required',
+            'tempat_lahir' => 'required',
+            'tanggal_lahir' => 'required|date',
+            'rata_rata_UN' => 'required|numeric',
+            'gaji_orang_tua_pertahun' => 'required|numeric',
+        ]);
+        $user->name = $request->nama_siswa;
+        $siswa = $user->data_siswa;
         $siswa->update($request->all());
         return redirect()->route('data-siswa.index')->with('sukses', "Data siswa berhasil diupdate");
     }

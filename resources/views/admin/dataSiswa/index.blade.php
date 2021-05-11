@@ -1,5 +1,9 @@
 @extends('admin.layouts.dashboard')
 
+@section('title')
+    Data Siswa Baru
+@endsection
+
 @section('content')
     <div class="p-3">
         @if(session('sukses'))
@@ -13,33 +17,25 @@
             </div>
             <div class="col-2">
                 <!-- Button trigger modal -->
-                <button type="button" class="btn btn-primary float-right" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                <a type="button" class="btn btn-primary float-right" href="{{route("data-siswa.create")}}">
                     Tambah Siswa
-                </button>
+                </a>
             </div>
             <table class="table table-hover"> 
             <tr>
+                <th>NIS</th>
                 <th>NAMA SISWA</th>
                 <th>JENIS KELAMIN</th>
-                <th>AGAMA</th>
-                <th>UMUR</th>
-                <th>RATA-RATA UN</th>
-                <th>GAJI ORANG TUA PER TAHUN</th>
-                <th>ASAL SEKOLAH</th>
                 <th>ACTION</th>
             </tr>
             @foreach($data_siswa as $siswa)
             <tr>
-                <td>{{$siswa->nama_siswa}}</td>
-                <td>{{$siswa->jenis_kelamin}}</td>
-                <td>{{$siswa->agama}}</td>
-                <td>{{$siswa->umur}}</td>
-                <td>{{$siswa->rata_rata_UN}}</td>
-                <td>{{$siswa->gaji_orang_tua_pertahun}}</td>
-                <td>{{$siswa->asal_sekolah}}</td>
+                <td>{{$siswa->data_siswa->nis}}</td>
+                <td>{{$siswa->name}}</td>
+                <td>{{$siswa->data_siswa->jenis_kelamin}}</td>
                 <td>
-                    <a href="/data-siswa/{{$siswa->id}}/edit" class="btn btn-warning btn-sm">EDIT</a>
-                    <form action="/data-siswa/{{$siswa->id}}" method="POST" onsubmit="return confirm('Apakah anda yakin ?')">
+                    <a href="{{route("data-siswa.edit", $siswa->id)}}" class="btn btn-warning btn-sm">EDIT</a>
+                    <form style="display: inline;" action="/data-siswa/{{$siswa->id}}" method="POST" onsubmit="return confirm('Apakah anda yakin ?')">
                         @csrf
                         @method("DELETE")
                         <button type="submit" class="btn btn-danger btn-sm">DELETE</button>

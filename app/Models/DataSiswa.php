@@ -13,8 +13,6 @@ class DataSiswa extends Authenticatable
     protected $primaryKey = 'nis';
 
     protected $fillable = [
-        'email',
-        'nama_lengkap',
         'jenis_kelamin',
         'agama',
         'tempat_lahir',
