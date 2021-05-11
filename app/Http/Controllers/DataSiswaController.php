@@ -89,6 +89,8 @@ class DataSiswaController extends Controller
     public function update(Request $request, $id)
     {
         $user = User::findOrFail($id);
+        if ($user->role !== 'SISWA')
+            throw new NotFoundResourceException();
         $request->validate([
             'nama_siswa' => 'required',
             'jenis_kelamin' => 'required',
@@ -112,9 +114,11 @@ class DataSiswaController extends Controller
      */
     public function destroy($id)
     {
-        $siswa = DataSiswa::findOrFail($id);
-        $siswa->delete();
-        return redirect()->back()->with('sukses', "Data siswa berhasil dihapus dari sistem");
+        $user = User::findOrFail($id);
+        if ($user->role !== 'SISWA')
+            throw new NotFoundResourceException();
+        $user->delete();
+        return redirect()->route("data-siswa.index")->with('sukses', "Data siswa berhasil dihapus dari sistem");
     }
 
     public function editDariSiswa()

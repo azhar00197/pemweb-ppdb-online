@@ -27,7 +27,7 @@ Route::group(['middleware' => 'guest'], function () {
     Route::post('register', [AuthController::class, 'createAccount']);
 });
 
-Route::group(['middleware' => 'auth'], function () {
+Route::group(['middleware' => ['auth', 'checkrole']], function () {
     Route::get('data-siswa', [DataSiswaController::class, 'editDariSiswa']);
     Route::post('data-siswa', [DataSiswaController::class, 'updateDariSiswa']);
 });
@@ -38,7 +38,12 @@ Route::group(['prefix' => 'admin'], function () {
         Route::post('login', [AuthController::class, 'authenticateAdmin']);
     });
 
-    Route::group(['middleware' => 'auth'], function () {
+    Route::group(['middleware' => ['auth', 'checkrole:admin']], function () {
         Route::resource('data-siswa', DataSiswaController::class)->except(["GET"]);
     });
+});
+
+Route::get("logout", function () {
+    auth()->logout();
+    return redirect()->route('login');
 });

@@ -67,10 +67,10 @@ class AuthController extends Controller
     public function authenticateAdmin(Request $request)
     {
         $request->validate([
-            'username' => 'required',
+            'email' => 'required|email',
             'password' => 'required|min:8'
         ]);
-        $loggedIn = auth()->guard("admin")->attempt($request->only(['username', 'password']));
+        $loggedIn = auth()->attempt($request->only(['email', 'password']));
         if ($loggedIn) {
             return redirect("/admin/data-siswa");
         }

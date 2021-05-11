@@ -43,14 +43,20 @@
                 <img src="/img/smansa.png" class="w-12" alt="">
                 <h3 class="font-sans font-semibold text-xl mt-6">LOGIN ADMIN</h3>
             </div>
-            @if($errors->any())
-            <h4>{{$errors->first()}}</h4>
+            @if ($errors->any())
+                <div class="rounded-md bg-red-100 text-red-600 p-3 mb-6">
+                    <ul>
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
             @endif
             <form action="" method="POST" class="border border-gray-500 rounded-md w-full sm:w-96 self-center mt-8 p-6">
                 @csrf
                 <div class="flex flex-col">
-                    <label for="username" class="text-sm">Username</label>
-                    <input type="text" name="username" id="username" class="py-1 px-3 rounded-sm border border-gray-700 border-opacity-60" required>
+                    <label for="email" class="text-sm">Email</label>
+                    <input type="email" name="email" id="email" class="py-1 px-3 rounded-sm border border-gray-700 border-opacity-60" required>
                 </div>
                 <div class="flex flex-col mt-3">
                     <label for="password" class="text-sm">Password</label>

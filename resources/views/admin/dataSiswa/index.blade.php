@@ -35,7 +35,7 @@
                 <td>{{$siswa->data_siswa->jenis_kelamin}}</td>
                 <td>
                     <a href="{{route("data-siswa.edit", $siswa->id)}}" class="btn btn-warning btn-sm">EDIT</a>
-                    <form style="display: inline;" action="/data-siswa/{{$siswa->id}}" method="POST" onsubmit="return confirm('Apakah anda yakin ?')">
+                    <form style="display: inline;" action="{{route("data-siswa.destroy", $siswa->id)}}" method="POST" onsubmit="return confirm('Apakah anda yakin ?')">
                         @csrf
                         @method("DELETE")
                         <button type="submit" class="btn btn-danger btn-sm">DELETE</button>

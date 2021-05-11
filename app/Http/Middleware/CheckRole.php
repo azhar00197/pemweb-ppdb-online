@@ -14,8 +14,19 @@ class CheckRole
      * @param  \Closure  $next
      * @return mixed
      */
-    public function handle(Request $request, Closure $next)
+    public function handle(Request $request, Closure $next, $role)
     {
+        if (strtoupper($role) === 'ADMIN') {
+            if (auth()->user()->role !== 'ADMIN') {
+                auth()->logout();
+                return redirect("/admin/login");
+            }
+        } else {
+            if (auth()->user()->role === 'ADMIN') {
+                auth()->logout();
+                return redirect("/login");
+            }
+        }
         return $next($request);
     }
 }
