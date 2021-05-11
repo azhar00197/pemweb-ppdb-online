@@ -57,7 +57,7 @@
                 @csrf
                 <div class="flex flex-col">
                     <label for="name" class="text-sm">Nama Lengkap</label>
-                    <input type="text" name="name" id="name" class="py-1 px-3 rounded-sm border border-gray-700 border-opacity-60" required>
+                    <input type="text" name="nama_lengkap" id="name" class="py-1 px-3 rounded-sm border border-gray-700 border-opacity-60" required>
                 </div>
                 <div class="flex flex-col mt-3">
                     <label for="email" class="text-sm">Email</label>

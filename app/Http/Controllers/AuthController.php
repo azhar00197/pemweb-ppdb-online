@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\User;
+use App\Models\DataSiswa;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -30,28 +30,21 @@ class AuthController extends Controller
     public function createAccount(Request $request)
     {
         $request->validate([
-            'name' => 'required',
-            'email' => 'required|email|unique:App\Models\User,email',
+            'nama_lengkap' => 'required',
+            'email' => 'required|email|unique:App\Models\DataSiswa,email',
             'password' => 'required|min:8|confirmed',
         ]);
 
-        $siswa = new User();
+        $siswa = new DataSiswa();
         $siswa->fill($request->all());
-        $siswa->jenis_kelamin = "";
-        $siswa->agama = "";
-        $siswa->tempat_lahir = "";
-        $siswa->tanggal_lahir = Carbon::parse("1990-01-01");
-        $siswa->rata_rata_UN = 0;
-        $siswa->gaji_orang_tua_pertahun = 0;
-        $siswa->asal_sekolah = "";
         $siswa->password = Hash::make($request->password);
         $siswa->save();
 
-        // if (auth()->attempt(['email' => $siswa->email, 'password' => $request->password])) {
-        //     return redirect('dashboard');
-        // } else {
-        //     return redirect()->back();
-        // }
+        if (auth()->attempt(['email' => $siswa->email, 'password' => $request->password])) {
+            return redirect('/data-siswa');
+        } else {
+            return redirect()->back();
+        }
     }
 
     public function loginAdmin()
