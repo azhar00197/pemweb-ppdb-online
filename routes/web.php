@@ -28,9 +28,12 @@ Route::group(['middleware' => 'guest'], function () {
     Route::post('register', [AuthController::class, 'createAccount']);
 });
 
-Route::group(['middleware' => ['auth', 'checkrole']], function () {
+Route::group(['middleware' => ['auth', 'checkrole:user']], function () {
     Route::get('data-siswa', [DataSiswaController::class, 'editDariSiswa']);
     Route::post('data-siswa', [DataSiswaController::class, 'updateDariSiswa']);
+
+    Route::get('foto-siswa', [DataSiswaController::class, 'uploadFoto']);
+    Route::post('foto-siswa', [DataSiswaController::class, 'storeFoto']);
 });
 
 Route::group(['prefix' => 'admin'], function () {

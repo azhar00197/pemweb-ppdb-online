@@ -25,6 +25,7 @@ class CreateDataSiswaTable extends Migration
             $table->double('rata_rata_UN')->default(0.0);
             $table->unsignedBigInteger('gaji_orang_tua_pertahun')->default(0);
             $table->string('asal_sekolah')->default("");
+            $table->text('foto')->nullable();
             $table->timestamps();
         });
     }
